@@ -4,8 +4,12 @@
 var showDownloads = {
 	// Let's do this
 	init: function() {
-		var fileList = chrome.downloads.search(DownloadQuery {}, function (fileList) {
-			//sort the thing
+		var fileList = chrome.downloads.search({
+			"limit" : 10,
+			"orderBy" : "-startTime"
+		}, function (fileList) {
+			//sort the thing by file type
+			console.log(fileList);
 		}
 	)},
 	
