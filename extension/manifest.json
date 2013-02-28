@@ -3,7 +3,8 @@
 	"name": "PMSWIB",
 	"description": "Put My Shit Where it Belongs - This is a download extension for Chrome",
 	"version": "1.0",
-	"permissions": ["https://secure.flickr.com/"],
+	"permissions": ['downloads',
+	'*: //*.google.com'],
 	"browser_action": {
 		"default_title": "Downloader Thingy",
 		"default_icon": "icon.png",
