@@ -4,26 +4,41 @@
 var displayLimit = 50;
 
 var showDownloads = {
-	// Let's do this
-	init: function() {
+
+	init: function(callback) {
+		// get array of latest downloads
 		var fileList = chrome.downloads.search({
+			"state" : "complete",
 			"limit" : displayLimit,
 			"orderBy" : "-startTime"
 		}, function (fileList) {
-			fileList.sort(this.sortByType);
-			console.log(fileList);
+			callback.call(fileList);
 		}
-	)},
-	
-	sortByType: function(file1, file2) {
-		return (sort(file1.filename.split('.').pop() - file2.filename.split('.').pop()));
-	}
-	
-	getfileIcon: function(file) {
-		return "chrome://fileicon/" + file.filename + "?scale=1x";
-	}
+	)}
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-	showDownloads.init();
+	showDownloads.init(function() {
+		
+		// get icons by filetype, although we don't have permission to do this yet..
+		function getIcon(file) {
+			return "chrome://fileicon/" + file.filename + "?scale=1x";
+		}
+		
+		// Sort downloads by file type, accending
+		this.sort(function(a, b) {
+			return a.filename.split('.').pop().localeCompare(b.filename.split('.').pop());
+		});
+		console.log(this);
+		
+		// Display files
+		var items = [];
+		$.each(this, function(i, item) {
+			var fileName = item.filename.split('\\').pop();
+			items.push('<li><img src="' + getIcon(item) + '"/>' + fileName + '</li>');
+		});  // close each()
+		
+		$("#myFiles").append(items.join(''));
+		
+	});
 });
