@@ -1,7 +1,7 @@
 // By Hannah Wei @herlifeinpixels
 // Show recent DL on popup
 
-var displayLimit = 10;
+var displayLimit = 50;
 
 var showDownloads = {
 	// Let's do this
@@ -10,14 +10,18 @@ var showDownloads = {
 			"limit" : displayLimit,
 			"orderBy" : "-startTime"
 		}, function (fileList) {
-			//sort the thing by file type
+			fileList.sort(this.sortByType);
 			console.log(fileList);
 		}
 	)},
 	
-	// sort: function() {}
+	sortByType: function(file1, file2) {
+		return (sort(file1.filename.split('.').pop() - file2.filename.split('.').pop()));
+	}
 	
-	// getfileIcon: function(
+	getfileIcon: function(file) {
+		return "chrome://fileicon/" + file.filename + "?scale=1x";
+	}
 };
 
 document.addEventListener('DOMContentLoaded', function () {
